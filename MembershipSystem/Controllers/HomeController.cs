@@ -39,8 +39,8 @@ namespace MembershipSystem.Controllers
 
             if (identityResult.Succeeded)
             {
-                ViewBag.SuccessMessage = "Üyelik kayıt işlemi başarıyla gerçekleşmiştir.";
-                return View();
+                TempData["SuccessMessage"] = "Üyelik kayıt işlemi başarıyla gerçekleşmiştir.";
+                return RedirectToAction(nameof(HomeController.SignUp));
             }
 
             foreach (var item in identityResult.Errors)

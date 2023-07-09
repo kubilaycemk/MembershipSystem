@@ -9,10 +9,10 @@
     <div class="col-md-6 offset-md-3">
         <h2>Kullanıcı Kayıt Formu</h2>
 
-        @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+        @if (TempData["SuccessMessage"] != null)
             {
                 <div class="alert alert-info" role="alert">
-                    @ViewBag.SuccessMessage
+                @TempData["SuccessMessage"]
                 </div>
             }
         
