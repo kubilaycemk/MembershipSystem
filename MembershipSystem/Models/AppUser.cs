@@ -1,6 +1,8 @@
-﻿namespace MembershipSystem.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MembershipSystem.Models
 {
-    public class AppUser
+    public class AppUser:IdentityUser
     {
     }
 }
