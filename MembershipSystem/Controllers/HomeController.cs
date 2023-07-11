@@ -35,6 +35,11 @@ namespace MembershipSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel request)
         {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var identityResult = await _userManager.CreateAsync(new() { UserName = request.UserName, Email = request.Email, PhoneNumber = request.Phone }, request.Password);
 
             if (identityResult.Succeeded)
