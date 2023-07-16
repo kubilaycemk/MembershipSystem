@@ -1,6 +1,5 @@
 using MembershipSystem.Contexts;
 using MembershipSystem.Extensions;
-using MembershipSystem.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

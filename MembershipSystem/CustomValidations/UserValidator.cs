@@ -17,7 +17,7 @@ namespace MembershipSystem.CustomValidations
                     Description = "Kullacı Adı sayısal karakter ile başlayamaz."
                 });
             }
-            if(errors.Any())
+            if (errors.Any())
             {
                 return Task.FromResult(IdentityResult.Failed(errors.ToArray()));
             }
