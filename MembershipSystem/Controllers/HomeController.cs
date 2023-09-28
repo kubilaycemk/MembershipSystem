@@ -56,6 +56,7 @@ namespace MembershipSystem.Controllers
 
             if(singinResult.IsLockedOut) {
                 ModelState.AddModelError(string.Empty, "3 dakika boyunca giriş yapamazsınız.");
+                return View();
             }
 
             ModelState.AddModelErrorList(new List<string>() { "Email veya Şifre yanlış." });

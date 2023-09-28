@@ -26,5 +26,19 @@ namespace MembershipSystem.Extensions
             .AddUserValidator<UserValidator>()
             .AddEntityFrameworkStores<AppDbContext>();
         }
+
+        public static void AddCookieWithExtension(this IServiceCollection services)
+        {
+            services.ConfigureApplicationCookie(opt =>
+            {
+                var cookieBuilder = new CookieBuilder();
+                cookieBuilder.Name = "MembershipSystemCookie";
+                opt.Cookie = cookieBuilder;
+                opt.LogoutPath = new PathString("/Member/Logout");
+                opt.LoginPath = new PathString("/Home/Signin");
+                opt.ExpireTimeSpan = TimeSpan.FromDays(60);
+                opt.SlidingExpiration = true;
+            });
+        }
     }
 }
