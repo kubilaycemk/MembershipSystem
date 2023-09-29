@@ -3,13 +3,16 @@
     ViewData["Title"] = "SignIn";
 }
 @model SignInViewModel
-
+@section Scripts{@*Bu sicript sayesinde *@
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
 <div class="row">
     <div class="col-md-4 offset-md-4">
 <h1>Kullanıcı Giriş</h1>
         <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
         </div>
-        <form asp-controller="Home" asp-action="SignIn" method="post">
+        <form method="post">
+            @*asp-controller="Home" asp-action="SignIn" asp-route-returnUrl ="@Context.Request.Query["returnUrl"]"*@
 
             <div class=" mb-3">
                 <label for="Email" class="col-md-12 col-form-label" asp-for="Email">Email Adresi :</label>
@@ -27,12 +30,18 @@
                 </div>
             </div>
 
-            <div class=" mb-3">
-                <div class="col-md-8">
+            <div class="row mb-3 ">
+                <div class="col-md-6">
                     <input asp-for="RememberMe" class="form-check-input">
                     <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
                 </div>
+
+                <div class ="col-md-6 ">
+                    <a class="float-end text-decoration-none" asp-controller="Home" asp-action="ForgetPassword">Şifremi Unuttum</a>
+                </div>
             </div>
+
+            
 
             <div class=" mb-3">
 
@@ -40,6 +49,8 @@
                     <button type="submit" class="btn btn-primary">Giriş Yap</button>
                 </div>
             </div>
+
+           
         </form>
 
 </div>

@@ -1,6 +1,7 @@
 ﻿using MembershipSystem.Contexts;
 using MembershipSystem.CustomValidations;
 using MembershipSystem.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace MembershipSystem.Extensions
 {
@@ -8,6 +9,11 @@ namespace MembershipSystem.Extensions
     {
         public static void AddIdentityWithExtension(this IServiceCollection services)
         {
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+            {
+                opt.TokenLifespan = TimeSpan.FromHours(2);
+            });
+
             services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -24,7 +30,8 @@ namespace MembershipSystem.Extensions
 
             }).AddPasswordValidator<PasswordValidator>()
             .AddUserValidator<UserValidator>()
-            .AddEntityFrameworkStores<AppDbContext>();
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
         }
 
         public static void AddCookieWithExtension(this IServiceCollection services)

@@ -95,6 +95,29 @@ namespace MembershipSystem.Controllers
             return View();
         }
 
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel request)
+        {
+            var hasUser = await _userManager.FindByEmailAsync(request.Email);
+
+            if(hasUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Bu email adresine sahip kullanıcı bulunamamıştır.");
+                return View();
+            }
+
+            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
+            string passwordResetLink = Url.Action("ResetPassword", "Home", new {userId = hasUser.Id,Token =  passwordResetToken});
+
+            TempData["SuccessMessage"] = "Şifre yenileme linki mail adresinize gönderilmiştir.";
+
+            return RedirectToAction(nameof(ForgetPassword));
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
