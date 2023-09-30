@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using MembershipSystem.Extensions;
+using MembershipSystem.Services;
 
 namespace MembershipSystem.Controllers
 {
@@ -12,12 +13,14 @@ namespace MembershipSystem.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -112,11 +115,51 @@ namespace MembershipSystem.Controllers
             }
 
             string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
-            string passwordResetLink = Url.Action("ResetPassword", "Home", new {userId = hasUser.Id,Token =  passwordResetToken});
+            string passwordResetLink = Url.Action("ResetPassword", "Home", new {userId = hasUser.Id,Token =  passwordResetToken},HttpContext.Request.Scheme);
+
+            await _emailService.SendResetPasswordEmailAsync(passwordResetLink,hasUser.Email);
 
             TempData["SuccessMessage"] = "Şifre yenileme linki mail adresinize gönderilmiştir.";
 
+            
             return RedirectToAction(nameof(ForgetPassword));
+        }
+
+        public  IActionResult ResetPassword(string userId, string token)
+        {
+            TempData["userId"] = userId;
+            TempData["token"] = token;
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
+        {
+            var userId = TempData["userId"].ToString();
+            var token = TempData["token"].ToString();
+
+
+            var hasUser = await _userManager.FindByIdAsync(userId);
+
+            if (hasUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Kullanıcı bulunamamıştır.");
+                return View();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(hasUser, token, resetPasswordViewModel.Password);
+
+            if(result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Şifreniz başarıyla yenilenmiştir.";
+            }
+            else
+            {
+                ModelState.AddModelErrorList(result.Errors.Select(x=> x.Description).ToList());
+            }
+
+
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

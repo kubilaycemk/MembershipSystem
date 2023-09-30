@@ -9,6 +9,7 @@ namespace MembershipSystem.ViewModels
         [Display(Name = "Email :")]
         public string Email { get; set; }
 
+        [DataType(DataType.Password)]
         [Required(ErrorMessage = "Şifre alanı zorunludur.")]
         [Display(Name = "Şifre :")]
         public string Password { get; set; }

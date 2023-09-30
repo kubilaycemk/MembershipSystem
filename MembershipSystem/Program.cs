@@ -1,7 +1,11 @@
 using MembershipSystem.Contexts;
 using MembershipSystem.Extensions;
+using MembershipSystem.OptionsModel;
+using MembershipSystem.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +20,9 @@ builder.Services.AddIdentityWithExtension();//Identity Configure
 
 builder.Services.AddCookieWithExtension();//Cookie Configure
 
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 

@@ -17,10 +17,13 @@ namespace MembershipSystem.ViewModels
         [Display(Name = "Telefon :")]
         public string Phone { get; set; }
 
+
+        [DataType(DataType.Password)]
         [Required(ErrorMessage = "Şifre alanı zorunludur.")]
         [Display(Name = "Şifre :")]
         public string Password { get; set; }
 
+        [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "Şifreler eşleşmedi.")]
         [Required(ErrorMessage = "Şifre Tekrar zorunludur.")]
         [Display(Name = "Şifre Tekrar :")]
