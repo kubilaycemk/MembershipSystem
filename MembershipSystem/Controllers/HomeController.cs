@@ -135,11 +135,15 @@ namespace MembershipSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
         {
-            var userId = TempData["userId"].ToString();
-            var token = TempData["token"].ToString();
+            var userId = TempData["userId"];
+            var token = TempData["token"];
 
+            if(userId == null ||  token == null)
+            {
+                throw new Exception("Bir hata meydana geldi.");
+            }
 
-            var hasUser = await _userManager.FindByIdAsync(userId);
+            var hasUser = await _userManager.FindByIdAsync(userId.ToString()!);
 
             if (hasUser == null)
             {
@@ -147,7 +151,7 @@ namespace MembershipSystem.Controllers
                 return View();
             }
 
-            var result = await _userManager.ResetPasswordAsync(hasUser, token, resetPasswordViewModel.Password);
+            var result = await _userManager.ResetPasswordAsync(hasUser, token.ToString()!, resetPasswordViewModel.Password);
 
             if(result.Succeeded)
             {
