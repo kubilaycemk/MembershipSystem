@@ -24,6 +24,11 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+builder.Services.Configure<SecurityStampValidatorOptions>(opt =>//30 dkda bir veritabaný ile client cookie de bulunan securitystamp deðerlerini karþýlaþtýracak
+{
+    opt.ValidationInterval = TimeSpan.FromMinutes(30);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

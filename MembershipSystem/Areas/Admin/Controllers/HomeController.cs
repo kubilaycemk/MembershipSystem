@@ -28,8 +28,8 @@ namespace MembershipSystem.Areas.Admin.Controllers
             var userViewModelList = userList.Select(x => new UserViewModel
             {
                 Id = x.Id,
-                Name = x.UserName,
-                Email = x.Email
+                Name = x.UserName!,
+                Email = x.Email!
             }).ToList();
             return View(userViewModelList);
         }

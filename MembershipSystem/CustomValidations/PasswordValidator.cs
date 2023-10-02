@@ -9,7 +9,7 @@ namespace MembershipSystem.CustomValidations
         {
             var errors = new List<IdentityError>();
 
-            if (password.ToLower().Contains(user.UserName.ToLower()))
+            if (password!.ToLower().Contains(user.UserName!.ToLower()))
             {
                 errors.Add(new IdentityError() { Code = "PasswordContainUserName", Description = "Şifre alanı kullanıcı adı içeremez" });
             }

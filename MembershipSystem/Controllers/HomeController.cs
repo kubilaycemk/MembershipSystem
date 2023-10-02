@@ -41,7 +41,7 @@ namespace MembershipSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel model,string? returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Action("Index", "Home");
+            returnUrl ??= Url.Action("Index", "Home");
 
             var hasUser = await _userManager.FindByEmailAsync(model.Email);
 
@@ -54,7 +54,7 @@ namespace MembershipSystem.Controllers
 
             if (singinResult.Succeeded)
             {
-                return Redirect(returnUrl);
+                return Redirect(returnUrl!);
             }
 
             if(singinResult.IsLockedOut) {
@@ -115,9 +115,9 @@ namespace MembershipSystem.Controllers
             }
 
             string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
-            string passwordResetLink = Url.Action("ResetPassword", "Home", new {userId = hasUser.Id,Token =  passwordResetToken},HttpContext.Request.Scheme);
+            string passwordResetLink = Url.Action("ResetPassword", "Home", new { userId = hasUser.Id, Token = passwordResetToken }, HttpContext.Request.Scheme)!;
 
-            await _emailService.SendResetPasswordEmailAsync(passwordResetLink,hasUser.Email);
+            await _emailService.SendResetPasswordEmailAsync(passwordResetLink!,hasUser.Email!);
 
             TempData["SuccessMessage"] = "Şifre yenileme linki mail adresinize gönderilmiştir.";
 
