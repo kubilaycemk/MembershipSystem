@@ -8,6 +8,6 @@ namespace MembershipSystem.ViewModels
         [Required(ErrorMessage = "Email alanı boş olamaz.")]
         [EmailAddress(ErrorMessage ="Email formatı hatalı.")]
         [Display(Name ="Email :")]
-        public string Email { get; set; }     
+        public string Email { get; set; } = null!;
     }
 }

@@ -7,12 +7,12 @@ namespace MembershipSystem.ViewModels
         [EmailAddress(ErrorMessage = "Email formatı yanlıştır.")]
         [Required(ErrorMessage = "Email alanı zorunludur.")]
         [Display(Name = "Email :")]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Şifre alanı zorunludur.")]
         [Display(Name = "Şifre :")]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         public bool RememberMe { get; set; }
     }

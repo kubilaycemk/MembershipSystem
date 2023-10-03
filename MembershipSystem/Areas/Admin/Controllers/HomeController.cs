@@ -25,7 +25,7 @@ namespace MembershipSystem.Areas.Admin.Controllers
         {
             var userList = await _userManager.Users.ToListAsync();
 
-            var userViewModelList = userList.Select(x => new UserViewModel
+            var userViewModelList = userList.Select(x => new UserListViewModel
             {
                 Id = x.Id,
                 Name = x.UserName!,

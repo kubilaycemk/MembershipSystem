@@ -8,12 +8,13 @@ namespace MembershipSystem.ViewModels
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Şifre alanı zorunludur.")]
         [Display(Name = "Yeni Şifre :")]
-        public string Password { get; set; }
+        [MinLength(6, ErrorMessage = "Şifreniz en az 6 karakter olmalıdır.")]
+        public string Password { get; set; } = null!;
 
         [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "Şifreler eşleşmedi.")]
         [Required(ErrorMessage = "Şifre Tekrar zorunludur.")]
         [Display(Name = "Yeni Şifre Tekrar :")]
-        public string PasswordConfirm { get; set; }
+        public string PasswordConfirm { get; set; } = null!;
     }
 }
