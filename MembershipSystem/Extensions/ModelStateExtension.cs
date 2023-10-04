@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MembershipSystem.Extensions
 {
@@ -10,6 +11,11 @@ namespace MembershipSystem.Extensions
             {
                 modelState.AddModelError(string.Empty, item);
             });
+        }
+
+        public static void AddModelErrorList(this ModelStateDictionary modelState, IEnumerable<IdentityError> Errors)
+        {
+            modelState.AddModelErrorList(Errors.Select(x => x.Description).ToList());
         }
     }
 }
